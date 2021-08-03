@@ -18,4 +18,9 @@ class VideoController extends Controller
     {
     	return new VideoResource( $video );
     }
+
+    public function mark(Video $video, Request $request )
+    {
+        $request->user()->playedVideos()->sync( $video );
+    }
 }

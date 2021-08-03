@@ -4,6 +4,9 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\SignInController;
+use App\Http\Controllers\Auth\SignOutController;
+use App\Http\Controllers\Auth\MeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +23,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group([
+        'middleware' => ['api', 'auth:api'],
+        'prefix' => 'auth'
+    ], 
+   function () {
+    Route::post('login', SignInController::class)->withoutMiddleware(['auth:api']);
+    Route::get('user', MeController::class);
+    Route::post('logout', SignOutController::class);
+
+
+});
+
 Route::get('videos', [VideoController::class, 'index']);
 Route::get('videos/{video}', [VideoController::class, 'show']);
 
 Route::get('tags', [TagController::class, 'index']);
+
+Route::post('mark/{video}', [VideoController::class, 'mark'])->middleware(['auth:api']);
+
+
