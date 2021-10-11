@@ -36,6 +36,7 @@ Route::group([
 });
 
 Route::get('videos', [VideoController::class, 'index']);
+Route::post('videos', [VideoController::class, 'store']);
 Route::get('videos/{video}', [VideoController::class, 'show']);
 
 Route::get('tags', [TagController::class, 'index']);

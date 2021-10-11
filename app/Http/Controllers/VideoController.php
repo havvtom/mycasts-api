@@ -23,4 +23,21 @@ class VideoController extends Controller
     {
         $request->user()->playedVideos()->sync( $video );
     }
+
+    public function store( Request $request )
+    {
+        //check if user has permission to create and edit
+        //Validation
+        //slug is unique
+        $video = Video::create([
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'thumbnail' => $request->thumbnail,
+                    'videoUrl' => $request->url
+                ]);
+
+        $video->tags()->attach($request->tags);
+
+        return new VideoResource( $video );
+    }
 }
