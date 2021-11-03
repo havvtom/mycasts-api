@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use app\Models\User;
 
 class UserResource extends JsonResource
 {
@@ -12,7 +13,7 @@ class UserResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public $collects = User::class;
+    public $collects = UserResource::class;
 
     public function toArray($request)
     {
@@ -21,8 +22,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'playedVideos' => $this->playedVideos()->pluck('video_id'),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'admin' => $this->hasRole('admin')
         ];
     }
 }

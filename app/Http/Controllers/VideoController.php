@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:api'])->except(['index', 'show']);
+    }
+
     public function index()
     {
     	return new VideoCollection( Video::all() );
@@ -27,17 +32,66 @@ class VideoController extends Controller
     public function store( Request $request )
     {
         //check if user has permission to create and edit
+        if( !$request->user()->can('create video') ){
+            abort(403);
+        }
+
         //Validation
-        //slug is unique
+        $request->validate([
+            'name' => 'required|min:4',
+            'description' => 'required|min:4',
+            'thumbnail' => 'required',
+            'videoUrl' => 'required'
+        ]);
+
+        //Insert video
         $video = Video::create([
                     'name' => $request->name,
                     'description' => $request->description,
                     'thumbnail' => $request->thumbnail,
-                    'videoUrl' => $request->url
+                    'videoUrl' => $request->videoUrl
                 ]);
 
         $video->tags()->attach($request->tags);
 
         return new VideoResource( $video );
     }
+
+    public function destroy( Video $video, Request $request )
+    {
+        //check if user has permission to create and edit
+        if( !$request->user()->can('create video') ){
+            abort(403);
+        }
+
+        $video->delete();
+       
+    }
+
+    public function update(Video $video, Request $request)
+    {
+        //check if user has permission to create and edit
+        if( !$request->user()->can('create video') ){
+            abort(403);
+        }
+
+        //validation
+        $request->validate([
+            'name' => 'required|min:4',
+            'description' => 'required|min:4',
+            'thumbnail' => 'required',
+            'videoUrl' => 'required'
+        ]);
+
+        $attributes = request()->only('name', 'description', 'thumbnail', 'videoUrl');
+
+        $video->update($attributes);
+        
+        $video->tags()->sync($request->tags);
+
+        return new VideoResource( $video );
+
+    }
 }
+
+

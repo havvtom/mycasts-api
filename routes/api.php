@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +39,12 @@ Route::group([
 Route::get('videos', [VideoController::class, 'index']);
 Route::post('videos', [VideoController::class, 'store']);
 Route::get('videos/{video}', [VideoController::class, 'show']);
+Route::delete('videos/{video}', [VideoController::class, 'destroy']);
+Route::patch('videos/{video}', [VideoController::class, 'update']);
 
 Route::get('tags', [TagController::class, 'index']);
+Route::get('users', [UserController::class, 'index']);
+Route::post('user', [UserController::class, 'store']);
 
 Route::post('mark/{video}', [VideoController::class, 'mark'])->middleware(['auth:api']);
 

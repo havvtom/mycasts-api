@@ -18,9 +18,9 @@ class SignInController extends Controller
         {
             return response()->json([
                 'errors' => [
-                    'email' => 'Could not sign you in with those details'
+                    'email' => ['Could not sign you in with those details']
                 ]
-            ], 401);
+            ], 422);
         }
 
         return response()->json([
