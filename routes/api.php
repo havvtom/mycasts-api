@@ -1,13 +1,14 @@
 <?php
 
+use App\Http\Controllers\Auth\MeController;
+use App\Http\Controllers\Auth\SignInController;
+use App\Http\Controllers\Auth\SignOutController;
+use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\SignInController;
-use App\Http\Controllers\Auth\SignOutController;
-use App\Http\Controllers\Auth\MeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +43,17 @@ Route::get('videos/{video}', [VideoController::class, 'show']);
 Route::delete('videos/{video}', [VideoController::class, 'destroy']);
 Route::patch('videos/{video}', [VideoController::class, 'update']);
 
+//Tags routes
 Route::get('tags', [TagController::class, 'index']);
+Route::post('tags', [TagController::class, 'store']);
+Route::patch('tags/{tag}', [TagController::class, 'update']);
+Route::delete('tags/{tag}', [TagController::class, 'destroy']);
+//end of Tag routes
+
 Route::get('users', [UserController::class, 'index']);
 Route::post('user', [UserController::class, 'store']);
 
 Route::post('mark/{video}', [VideoController::class, 'mark'])->middleware(['auth:api']);
+Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ]);
 
 
