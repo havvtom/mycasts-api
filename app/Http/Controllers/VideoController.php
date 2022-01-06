@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\VideoCollection;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
+use App\Scoping\Scopes\TagScope;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -16,7 +17,9 @@ class VideoController extends Controller
 
     public function index()
     {
-    	return new VideoCollection( Video::all() );
+        $videos = Video::withScopes( $this->scopes() )->paginate(2);
+
+    	return new VideoCollection( $videos );
     }
 
     public function show( Video $video )
@@ -91,6 +94,13 @@ class VideoController extends Controller
 
         return new VideoResource( $video );
 
+    }
+
+    protected function scopes()
+    {
+        return [
+            'tag' => new TagScope()
+        ];
     }
 }
 

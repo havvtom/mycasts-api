@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\MeController;
 use App\Http\Controllers\Auth\SignInController;
 use App\Http\Controllers\Auth\SignOutController;
-use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\MediaUploadController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
@@ -54,6 +54,6 @@ Route::get('users', [UserController::class, 'index']);
 Route::post('user', [UserController::class, 'store']);
 
 Route::post('mark/{video}', [VideoController::class, 'mark'])->middleware(['auth:api']);
-Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ]);
+Route::post('media-upload', [ MediaUploadController::class, 'mediaUploadPost' ]);
 
 
