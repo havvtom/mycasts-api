@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permissions')->upsert(
+        DB::table('permissions')->insert(
             [
                 'id'=> 1,
                 'name' => 'create video',
@@ -24,7 +24,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete video'
             ],
             [
-                'id'=> 2,
+                'id'=> 3,
                 'name' => 'edit video'
             ]
         );
