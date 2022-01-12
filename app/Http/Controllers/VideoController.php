@@ -17,7 +17,7 @@ class VideoController extends Controller
 
     public function index()
     {
-        $videos = Video::withScopes( $this->scopes() )->paginate(2);
+        $videos = Video::withScopes( $this->scopes() )->paginate(6);
 
     	return new VideoCollection( $videos );
     }
