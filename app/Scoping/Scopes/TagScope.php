@@ -10,7 +10,7 @@ class TagScope implements Scope
 	public function apply( Builder $builder, $value )
 	{
 		return $builder->whereHas('tags', function ($builder) use ($value){
-			$builder->where('title', $value);
+			$builder->where('slug', $value);
 		});
 	}
 
